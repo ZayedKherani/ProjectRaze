@@ -6,6 +6,7 @@ public class script_perlinNoiseMap : MonoBehaviour
 {
     Dictionary<int, GameObject> tileset;
     Dictionary<int, GameObject> tile_groups;
+
     public GameObject prefab_plains;
     public GameObject prefab_forest;
     public GameObject prefab_hills;
