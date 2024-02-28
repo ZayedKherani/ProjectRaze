@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cd1c76f968761044581675a79f1af0b2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - prefab_plains: {fileID: 34398551886111253, guid: 252daacc5b76d104388426789c8d78cf, type: 3}
+  - prefab_forest: {fileID: 8630559109379964241, guid: 10a93d890e8ab1c48a3e4a69a8cf9572, type: 3}
+  - prefab_hills: {fileID: 7751607978799217086, guid: ba5aa62ee1cb05b47be5bdc38f205160, type: 3}
+  - prefab_mountains: {fileID: 2987818737069756433, guid: d1d4e9f410c2a414b8479aacae2323aa, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
