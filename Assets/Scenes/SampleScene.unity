@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 361011208}
   - component: {fileID: 361011207}
   - component: {fileID: 361011206}
+  - component: {fileID: 361011211}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd198f457c0c33d46999b0a0cea524b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 2
+  movementSpeed: 70
 --- !u!50 &361011207
 Rigidbody2D:
   serializedVersion: 4
@@ -295,6 +296,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361011211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361011205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1c76f968761044581675a79f1af0b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab_forest: {fileID: 8630559109379964241, guid: 10a93d890e8ab1c48a3e4a69a8cf9572, type: 3}
+  prefab_hills: {fileID: 7751607978799217086, guid: ba5aa62ee1cb05b47be5bdc38f205160, type: 3}
+  prefab_mountains: {fileID: 2987818737069756433, guid: d1d4e9f410c2a414b8479aacae2323aa, type: 3}
+  prefab_plains: {fileID: 34398551886111253, guid: 252daacc5b76d104388426789c8d78cf, type: 3}
+  prefab_sand: {fileID: 843469339011323076, guid: 770c36d45eb5ea840ab9a0d1afdd73f8, type: 3}
+  prefab_water: {fileID: 4328487646137690590, guid: 81340d2b491317d4bb1f2ab43815bfa7, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0

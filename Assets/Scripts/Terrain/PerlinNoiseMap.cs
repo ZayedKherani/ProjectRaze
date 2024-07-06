@@ -1,22 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class script_perlinNoiseMap : MonoBehaviour
+public class PerlinNoiseMap : MonoBehaviour
 {
-    Dictionary<int, GameObject> tileset;
+    Dictionary<int, GameObject> prefabTileset;
     Dictionary<int, GameObject> tile_groups;
 
-    public GameObject prefab_plains;
     public GameObject prefab_forest;
     public GameObject prefab_hills;
     public GameObject prefab_mountains;
+    public GameObject prefab_plains;
+    public GameObject prefab_sand;
+    public GameObject prefab_water;
 
     int map_width = 160;
     int map_height = 90;
 
-    List<List<int>> noise_grid = new List<List<int>>();
-    List<List<GameObject>> tile_grid = new List<List<GameObject>>();
+    //List<List<int>> noise_grid = new List<List<int>>();
+    //List<List<GameObject>> tile_grid = new List<List<GameObject>>();
+
+    List<List<(int, GameObject)>> noise_tile_grid = new List<List<(int, GameObject)>>();
 
     // recommend 4 to 20
     float magnification = 7.0f;
@@ -24,19 +29,20 @@ public class script_perlinNoiseMap : MonoBehaviour
     int x_offset = 0; // <- +>
     int y_offset = 0; // v- +^
 
-    void CreateTile(int tile_id, int x, int y)
+    GameObject CreateTile(int tile_id, int x, int y)
     {
         /** Creates a new tile using the type id code, group it with common
             tiles, set it's position and store the gameobject. **/
 
-        GameObject tile_prefab = tileset[tile_id];
+        GameObject tile_prefab = prefabTileset[tile_id];
         GameObject tile_group = tile_groups[tile_id];
+
         GameObject tile = Instantiate(tile_prefab, tile_group.transform);
 
         tile.name = string.Format("tile_x{0}_y{1}", x, y);
         tile.transform.localPosition = new Vector3(x, y, 0);
 
-        tile_grid[x].Add(tile);
+        return tile;
     }
 
     void CreateTileGroups()
@@ -45,7 +51,7 @@ public class script_perlinNoiseMap : MonoBehaviour
             forest tiles **/
 
         tile_groups = new Dictionary<int, GameObject>();
-        foreach (KeyValuePair<int, GameObject> prefab_pair in tileset)
+        foreach (KeyValuePair<int, GameObject> prefab_pair in prefabTileset)
         {
             GameObject tile_group = new GameObject(prefab_pair.Value.name);
             tile_group.transform.parent = gameObject.transform;
@@ -59,11 +65,13 @@ public class script_perlinNoiseMap : MonoBehaviour
         /** Collect and assign ID codes to the tile prefabs, for ease of access.
             Best ordered to match land elevation. **/
 
-        tileset = new Dictionary<int, GameObject>();
-        tileset.Add(0, prefab_plains);
-        tileset.Add(1, prefab_forest);
-        tileset.Add(2, prefab_hills);
-        tileset.Add(3, prefab_mountains);
+        prefabTileset = new Dictionary<int, GameObject>();
+        prefabTileset.Add(0, prefab_plains);
+        prefabTileset.Add(1, prefab_forest);
+        prefabTileset.Add(2, prefab_hills);
+        prefabTileset.Add(3, prefab_mountains);
+        prefabTileset.Add(4, prefab_sand);
+        prefabTileset.Add(5, prefab_water);
     }
 
     int GetIdUsingPerlin(int x, int y)
@@ -77,13 +85,14 @@ public class script_perlinNoiseMap : MonoBehaviour
             (y - y_offset) / magnification
         );
         float clamp_perlin = Mathf.Clamp01(raw_perlin); // Thanks: youtu.be/qNZ-0-7WuS8&lc=UgyoLWkYZxyp1nNc4f94AaABAg
-        float scaled_perlin = clamp_perlin * tileset.Count;
+        float scaled_perlin = clamp_perlin * prefabTileset.Count;
 
         // Replaced 4 with tileset.Count to make adding tiles easier
-        if (scaled_perlin == tileset.Count)
+        if (scaled_perlin == prefabTileset.Count)
         {
-            scaled_perlin = (tileset.Count - 1);
+            scaled_perlin = (prefabTileset.Count - 1);
         }
+
         return Mathf.FloorToInt(scaled_perlin);
     }
 
@@ -94,14 +103,14 @@ public class script_perlinNoiseMap : MonoBehaviour
 
         for (int x = 0; x < map_width; x++)
         {
-            noise_grid.Add(new List<int>());
-            tile_grid.Add(new List<GameObject>());
+            noise_tile_grid.Add(new List<(int, GameObject)>());
 
             for (int y = 0; y < map_height; y++)
             {
                 int tile_id = GetIdUsingPerlin(x, y);
-                noise_grid[x].Add(tile_id);
-                CreateTile(tile_id, x, y);
+                GameObject tile = CreateTile(tile_id, x, y);
+
+                noise_tile_grid[x].Add((tile_id, tile));
             }
         }
     }
